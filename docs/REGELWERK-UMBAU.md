@@ -1,6 +1,6 @@
 # Regelwerk umbauen (Nummern-Kürzung, Verfahren)
 
-**Stand:** 2026-10-31. Übernommen aus dem Projekt *anderswie-product-intelligence*.
+**Stand:** 2026-10-31 · **Verantwortlich:** Ramona. Übernommen aus dem Projekt *anderswie-product-intelligence*.
 
 Dies ist ein **einmaliger Schnitt am Ende einer Regelwerk-Prüfung** — danach eingefroren. Die
 Prüfung selbst steht in [`GOVERNANCE.md`](GOVERNANCE.md).

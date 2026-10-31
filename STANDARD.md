@@ -1,6 +1,6 @@
 # Der anderswie-Projektstandard
 
-**Vorlagen-Version:** 1.0.0 · **Stand:** 2026-10-31
+**Vorlagen-Version:** 1.1.0 · **Stand:** 2026-10-31 · **Verantwortlich:** Ramona
 
 ## Übernommene Konventionen (Fassung mitliefern!)
 
@@ -16,6 +16,13 @@ Vorlagen-Version es stammt.
 | Commit-Betreff | **Conventional Commits** (`feat(bereich):`, `fix(…)`, `docs(…)`, `chore(…)`) | 1.0.0 |
 | Entscheidungen (optional) | **ADR** — Architecture Decision Records | Nygard-Format |
 | Formatierung | `.editorconfig`, `.gitignore` | — |
+| Dokumentenordnung | Kopfzeile mit `Stand` + `Verantwortlich`, Altersfristen, Wegweiser-Prüfung, Aufräum-Bericht — Ideen aus dem Skill **`agent-harness-engineering`** (Herausgeber `yeyitech`, ClawHub) | 0.1.0 (2026-03-08) |
+
+**Übernahmen immer mit Beleg.** Eine fremde Idee wird mit Name, Herausgeber und Fassung genannt —
+sonst ist später nicht nachvollziehbar, woher eine Regel stammt. Aus diesem Skill **nicht** übernommen
+wurden sein Doku-Schema (`docs/agent/…` — das wäre ein zweiter Doku-Baum neben diesem) und sein
+Bootstrap-Skript: es war unvollständig ausgeliefert (die Vorlagen fehlten) und hätte `AGENTS.md` ohne
+Rückfrage überschrieben.
 
 **Warum so:** Der Aufbau wird durch **Vorlagen und Werkzeuge** erzwungen, nicht durch guten Willen
 (vgl. *Software Engineering Guide*, Kap. 2.14: „Enforce structure with scaffolding and templates,
@@ -38,9 +45,13 @@ nachvollziehbar ist. Jede Zeile „Falle" stammt aus einem real erlebten Fehler.
 | `CONTRIBUTING.md` | Wie hier gearbeitet wird | Numerierte Regeln: vor der Änderung, Commits, Code-Qualität, Tests und Gegenproben, Versionierung/Release, die Prüfbefehle | Ein **erfundenes** `ENGINEERING.md` ist keine Konvention |
 | `CHANGELOG.md` | Änderungsverlauf | Keep-a-Changelog; **jede** Version ein datierter Block; `[Unreleased]` für den Arbeitsstand | Statements, die später falsch wurden, als **datierter Nachtrag** ergänzen — niemals den Release-Block umschreiben |
 | `pyproject.toml` / `package.json` | Version, Abhängigkeiten | Die Version als **eine** Quelle; die zweite Stelle im Code (`__version__`) muss dazu passen | Zwei Zahlen, die auseinanderlaufen, fallen erst im Build auf |
-| `.gitignore` | Schutz vor Getracktem | `.env`, Daten, `dist/`, `scratch/`, **`.hermes/`** | Nicht ignoriert = Build gesperrt, ohne dass der Grund erkennbar ist |
+| `.gitignore` | Schutz vor Getracktem | `.env`, Daten, `dist/`, `scratch/`, **`.hermes/`**, **`.venv/`** | Nicht ignoriert = Build gesperrt, ohne dass der Grund erkennbar ist. Ein **nicht** ignoriertes `.venv` wandert komplett in die Versionskontrolle — und die README verlangt genau dieses venv |
 
 ## 2. `docs/` — die Ordnung selbst
+
+**Kopfzeile für jedes Dokument:** in den ersten Zeilen
+`**Stand:** YYYY-MM-DD · **Verantwortlich:** <Name>`. Ein Dokument ohne Namen hat niemanden, der es
+aktualisiert. Fristen: Vorgabe 365 Tage, `STATUS.md` und `BACKLOG.md` 90 — maschinell geprüft.
 
 | Datei | Zweck | Mindestinhalt | Falle |
 |---|---|---|---|
@@ -61,17 +72,19 @@ nachvollziehbar ist. Jede Zeile „Falle" stammt aus einem real erlebten Fehler.
 
 | Datei | Zweck | Mindestinhalt |
 |---|---|---|
-| `gates.sh` | **Ein** Befehl für alle Prüfungen | Tests, Kompilierung, Whitespace/Diff, Secret-Prüfung, Verhaltenstests der Oberfläche; klares Gesamtergebnis; ändert nichts am Projekt |
+| `gates.sh` | **Ein** Befehl für alle Prüfungen | Tests, Kompilierung, Whitespace/Diff, Secret-Prüfung, Verhaltenstests der Oberfläche; klares Gesamtergebnis; ändert nichts am Projekt; sagt **vorab**, wenn `pytest` fehlt, statt mit einem Importfehler abzubrechen |
 | `projektumgebung.py` | Welches Python gilt | Eine Regel an **einer** Stelle; Skripte starten sich bei falscher Umgebung selbst neu; verglichen wird `sys.prefix`, **nicht** die Datei |
 | `check_repo_security.py` | Keine Geheimnisse | Prüft **alle** Refs, nicht nur den lokalen Branch |
-| Dokumentenordnungs-Test | Die Ordnung erzwingen | Vorlage im Skill `repository-governance` (`document-order-test.py`) — aktive Dokumente datiert, keine Entwürfe im aktiven Ordner, jede aktive Datei im Index, keine toten Links |
+| Dokumentenordnungs-Test (`tests/test_dokumentenordnung.py`) | Die Ordnung erzwingen | Aktive Dokumente datiert **und mit verantwortlicher Person**, Stand innerhalb der Frist, keine Entwürfe im aktiven Ordner, jede aktive Datei im Index, keine toten Links, `AGENTS.md` als kurzer Wegweiser; dazu Namensordnung und Modulkarte |
+| `muellabfuhr.py` | Aufräum-Kandidaten **melden** | Überlange Dateien, verdächtige Namen, Arbeitsmarken-Häufungen, Doku ohne Index-Eintrag, Alter der Dokumente; löscht **nie** etwas — Rückgabewert immer 0 |
 
 ## 4. Was verdrahtet sein muss, bevor es zählt
 
 Eine Ordnung ohne Prüfung regressiert in der nächsten Sitzung. Diese vier gehören in `gates.sh`:
 
-1. **Dokumentenordnung:** jede aktive Datei datiert, im Index gelistet, keine Entwurfs-Kennzeichnung,
-   keine toten relativen Links.
+1. **Dokumentenordnung:** jede aktive Datei datiert **und mit verantwortlicher Person**, im Index
+   gelistet, keine Entwurfs-Kennzeichnung, keine toten relativen Links, Stand innerhalb der Frist,
+   `AGENTS.md` verweist auf Index und Prüfbefehl und bleibt kurz.
 2. **Dokumentationspflicht:** wenn `src/**` (bzw. der Code) geändert wurde, muss der Changelog im
    selben Commit mitgezogen sein. Der Test liest `git status --porcelain`.
 3. **Secret-Prüfung** über die Historie.
@@ -79,6 +92,9 @@ Eine Ordnung ohne Prüfung regressiert in der nächsten Sitzung. Diese vier geh�
 
 Ein Test kann beweisen, **dass** etwas dokumentiert wurde — nie, dass es **stimmt**. Deshalb steht
 Dokumentationspflicht zusätzlich als Regel in der Agenten-Datei, nicht nur als Test.
+
+Der **Aufräum-Bericht** (`scripts/muellabfuhr.py`) gehört bewusst **nicht** in die Gates: er meldet,
+er entscheidet nicht. Eine Prüfung, die bei jedem Lauf rot wird, wird abgeschaltet statt gelesen.
 
 ## 5. Reihenfolge am ersten Tag
 

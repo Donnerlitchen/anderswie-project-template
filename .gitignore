@@ -8,7 +8,9 @@ scratch/
 # und sperrt jeden commitgebundenen Build.
 .hermes/
 
-# Werkzeuge
+# Werkzeuge und Umgebung
+.venv/
+venv/
 __pycache__/
 *.pyc
 .pytest_cache/

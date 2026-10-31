@@ -17,9 +17,18 @@ cd "$(dirname "$0")/.." || {
 }
 
 # Python aus der Projektumgebung, sonst das System-Python.
-PY=".venv/bin/python"
-if [ ! -x "$PY" ]; then
-  PY="python3"
+# Eine von außen gesetzte PY hat Vorrang — für CI oder eine Gegenprobe mit anderem Interpreter.
+if [ -z "${PY:-}" ]; then
+  PY=".venv/bin/python"
+  [ -x "$PY" ] || PY="python3"
+fi
+
+# Ohne pytest ist der Testschritt nicht ausführbar. Dann fehlt die Umgebung, nicht der Test —
+# eine kryptische Importmeldung hilft niemandem.
+if ! "$PY" -c "import pytest" >/dev/null 2>&1; then
+  echo "FEHLER: $PY hat kein pytest — die Projektumgebung fehlt." >&2
+  echo "        Anlegen mit:  python3 -m venv .venv && .venv/bin/pip install pytest" >&2
+  exit 2
 fi
 
 fehler=0

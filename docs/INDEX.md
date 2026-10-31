@@ -1,6 +1,6 @@
 # Index — was ist maßgeblich?
 
-**Stand:** 2026-10-31. Jede aktive Datei steht hier mit einer Zeile Zweck. Ein neues Dokument ohne
+**Stand:** 2026-10-31 · **Verantwortlich:** Ramona. Jede aktive Datei steht hier mit einer Zeile Zweck. Ein neues Dokument ohne
 Eintrag ist unsichtbar; `tests/test_dokumentenordnung.py` erzwingt den Eintrag.
 
 ## Aktuell und maßgeblich

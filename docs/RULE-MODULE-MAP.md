@@ -1,6 +1,6 @@
 # Regel → Modul → Umsetzung
 
-**Stand:** 2026-10-31. Diese Karte beschreibt den **aktuellen Code**, nicht das Zielbild.
+**Stand:** 2026-10-31 · **Verantwortlich:** Ramona. Diese Karte beschreibt den **aktuellen Code**, nicht das Zielbild.
 
 | Modul | Spezifikation | Code | Umsetzung |
 |---|---|---|---|

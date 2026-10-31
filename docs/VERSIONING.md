@@ -1,6 +1,6 @@
 # Versionierung und Releases (SemVer)
 
-**Stand:** 2026-10-31. Richtlinie: [SemVer 2.0.0](https://semver.org/lang/de/).
+**Stand:** 2026-10-31 · **Verantwortlich:** Ramona. Richtlinie: [SemVer 2.0.0](https://semver.org/lang/de/).
 
 | Stufe | Wann |
 |---|---|

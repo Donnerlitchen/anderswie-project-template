@@ -1,6 +1,6 @@
 # Builds, Betrieb und Rollback
 
-**Stand:** 2026-10-31.
+**Stand:** 2026-10-31 · **Verantwortlich:** Ramona.
 
 **Kopf dieses Dokuments nennt zwei Dinge getrennt:** die **Quellversion** (mit Commit) und das
 **laufende Artefakt**. Ein Kopf, der „läuft" sagt, während das Artefakt hinterherhinkt, altert

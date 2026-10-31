@@ -1,6 +1,6 @@
 # Governance: ein Repository als Quelle der Wahrheit ordnen
 
-**Stand:** 2026-10-31. Übernommen aus dem Projekt *anderswie-product-intelligence*.
+**Stand:** 2026-10-31 · **Verantwortlich:** Ramona. Übernommen aus dem Projekt *anderswie-product-intelligence*.
 Die Beispiele stammen aus echter Praxis — sie sind der Wert dieses Dokuments.
 
 ---
@@ -288,3 +288,20 @@ while those areas stay coupled:
   function still *end* in its real `return`? `print(type(fn.body[-1]).__name__)` via `ast`), and keep
   at least one test that exercises the production path with the switch **off**. A gate that bypasses
   the path it certifies is not a weaker gate — it is a gate for something else.
+
+---
+
+## Aufräum-Bericht (Müllabfuhr)
+
+Ein Bericht findet, was im Alltag untergeht: überlange Dateien, Namen wie `final-final` oder
+`Kopie`, Häufungen von `TODO`/`FIXME`, Dokumente ohne Index-Eintrag. Aufruf aus dem Projektordner:
+
+    python3 scripts/muellabfuhr.py
+
+**Der Bericht meldet nur.** Er löscht nichts, ändert nichts und endet immer mit Erfolg — Aufräumen
+ist ein menschlicher Entscheid, und Löschen braucht Zustimmung (`docs/POLICIES.md` §1). Er gehört
+deshalb bewusst **nicht** in `gates.sh`: eine Prüfung, die bei jedem Lauf rot wird, wird abgeschaltet
+statt gelesen.
+
+Empfohlener Zeitpunkt: monatlich und vor einem Release. Der Bericht nennt Kandidaten; entschieden
+wird einzeln, nie in einem Zug.

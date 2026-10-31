@@ -5,4 +5,20 @@ Versionierung: SemVer. Jede veröffentlichte Version hat einen eigenen datierten
 
 ## [Unreleased]
 
-- Projekt gestartet aus `anderswie-project-template` Version 1.0.0.
+## [1.1.0] - 2026-10-31
+
+### Hinzugefügt
+- **Kopfzeile** für jedes Dokument in `docs/`: `**Stand:** … · **Verantwortlich:** …` — maschinell geprüft.
+- **Altersfristen** je Dokument (Vorgabe 365 Tage; `STATUS.md` und `BACKLOG.md` 90 Tage). Ein Stand-Datum in der Zukunft fällt auf.
+- **Wegweiser-Prüfung für `AGENTS.md`:** er muss auf `docs/INDEX.md` und `scripts/gates.sh` verweisen und kurz bleiben.
+- **`scripts/muellabfuhr.py`:** meldet Aufräum-Kandidaten (überlange Dateien, verdächtige Namen, Arbeitsmarken-Häufungen, Doku ohne Index-Eintrag) und löscht nie etwas.
+- Ideen übernommen aus dem Skill `agent-harness-engineering` (Herausgeber `yeyitech`, ClawHub, Fassung 0.1.0, 2026-03-08) — mit Beleg in `STANDARD.md`.
+
+### Behoben
+- `.gitignore` ignorierte `.venv`/`venv` nicht: die `README.md` verlangt ein eigenes venv, das damit vollständig in die Versionskontrolle gewandert wäre.
+- `scripts/gates.sh` bricht nicht mehr mit einem Importfehler ab, wenn `pytest` fehlt, sondern nennt den Befehl zum Anlegen der Umgebung; ein von außen gesetztes `PY` hat Vorrang.
+- `STANDARD.md` nannte als Vorlage des Ordnungs-Tests das inzwischen gelöschte Skill `repository-governance`; jetzt steht dort der echte Pfad `tests/test_dokumentenordnung.py`.
+
+## [1.0.0] - 2026-10-31
+
+- Der Standard als Template-Repository: Dateisatz, Dokumentenordnung und eigene Gates.

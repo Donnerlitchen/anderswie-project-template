@@ -1,6 +1,6 @@
 # Policies — Grenzen, Freigaben und Ansprüche
 
-**Stand:** 2026-10-31.
+**Stand:** 2026-10-31 · **Verantwortlich:** Ramona.
 
 ## 1. Freigabevorbehalte
 

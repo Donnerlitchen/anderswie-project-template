@@ -79,7 +79,8 @@ des getaggten Commits beginnt mit `release: <version>`.
 ## 6. Kommandos
 
 ```bash
-bash scripts/gates.sh          # alle Prüfungen auf einmal
+bash scripts/gates.sh            # alle Prüfungen auf einmal
+python3 scripts/muellabfuhr.py   # Aufräum-Kandidaten ansehen (ändert nichts)
 ```
 
 Die Regel für das richtige Python steht in `scripts/projektumgebung.py` (`.venv/bin/python`, sonst

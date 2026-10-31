@@ -5,7 +5,14 @@ Inhaltliche steht in den Fachdateien; diese Datei verweist nur („eine Regel ha
 
 ## Zuerst lesen
 
-`README.md` → `docs/INDEX.md` → `docs/SOT.md` → `docs/STATUS.md` → `docs/BACKLOG.md`
+[README.md](README.md) → [docs/INDEX.md](docs/INDEX.md) → [docs/SOT.md](docs/SOT.md) →
+[docs/STATUS.md](docs/STATUS.md) → [docs/BACKLOG.md](docs/BACKLOG.md)
+
+## Prüfen
+
+Alle Prüfungen auf einmal: [`bash scripts/gates.sh`](scripts/gates.sh). Der Lauf muss grün sein,
+**bevor** etwas als fertig gilt — Prüfschritte und Nachweise stehen in
+[docs/TEST-GATES.md](docs/TEST-GATES.md).
 
 ## Verbindliche Regelwerke
 

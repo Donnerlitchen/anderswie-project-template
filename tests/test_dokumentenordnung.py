@@ -7,8 +7,12 @@ Agenten** und stehen als verbindlicher Text in `docs/SOT.md` (Abschnitt „Dokum
 
 Geprüft wird hier nur, was maschinell eindeutig ist — die inhaltliche Wahrheit bleibt bei Code,
 Tests und `docs/STATUS.md`.
+
+**Ein Test zählt erst, wenn er am alten Stand scheitert** (`CONTRIBUTING.md` §4). Jede Prüfung hier
+lässt sich gegenprüfen: Datei verstümmeln, Fehlschlag ansehen, zurücknehmen.
 """
 import re
+from datetime import date
 from pathlib import Path
 
 WURZEL = Path(__file__).resolve().parent.parent
@@ -16,15 +20,98 @@ DOCS = WURZEL / "docs"
 ARCHIV = DOCS / "archive"
 DATUM = re.compile(r"20\d\d-\d\d-\d\d")
 
+# Kopfzeilen-Fristen: wie lange darf ein Dokument unüberprüft stehen?
+# Grundlage: docs/SOT.md, Abschnitt „Dokumentenordnung".
+VORGABE_TAGE = 365
+FRIST_TAGE = {
+    "STATUS.md": 90,   # behauptet einen geprüften Ist-Stand
+    "BACKLOG.md": 90,  # offene Arbeit veraltet schnell und wird dann zur Liste von Rätseln
+}
+
+# AGENTS.md ist ein Wegweiser, kein Handbuch (STANDARD.md: „unter 100 Zeilen").
+AGENTS_MAX_ZEILEN = 120
+
+# Wohin der Wegweiser zeigen muss: Einstieg in die Doku und der Prüfbefehl.
+AGENTS_PFLICHTZIELE = ("docs/INDEX.md", "scripts/gates.sh")
+
 
 def _kopf(datei: Path, zeilen: int = 10) -> str:
     return "\n".join(datei.read_text(encoding="utf-8").splitlines()[:zeilen])
+
+
+def _stand(datei: Path):
+    """Das Stand-Datum aus der Kopfzeile — oder None, wenn keines da ist."""
+    treffer = DATUM.search(_kopf(datei))
+    return date.fromisoformat(treffer.group(0)) if treffer else None
 
 
 def test_jedes_aktive_dokument_ist_datiert():
     """Regel 2: Jedes Dokument im aktiven `docs/`-Ordner nennt oben ein Stand-Datum."""
     ohne = [d.name for d in sorted(DOCS.glob("*.md")) if not DATUM.search(_kopf(d))]
     assert ohne == [], "ohne Stand-Datum: " + ", ".join(ohne)
+
+
+def test_jedes_aktive_dokument_nennt_verantwortliche():
+    """Regel 2: Jedes Dokument nennt oben, **wer** es führt.
+
+    Ein Dokument ohne Namen hat niemanden, der es aktualisiert — genau so entstehen Aussagen, die
+    drei Monate später noch wie gültige Vorgaben aussehen.
+    """
+    ohne = [d.name for d in sorted(DOCS.glob("*.md")) if "verantwortlich" not in _kopf(d).lower()]
+    assert ohne == [], (
+        "ohne Verantwortliche/n in der Kopfzeile (`**Verantwortlich:** <Name>`): " + ", ".join(ohne))
+
+
+def test_dokumente_sind_nicht_veraltet():
+    """Regel 2: Das Stand-Datum liegt innerhalb der Frist — und nicht in der Zukunft.
+
+    Die Fristen sind bewusst je Dokument gesetzt (`FRIST_TAGE`, sonst `VORGABE_TAGE`): ein
+    Regelwerk darf lange halten, ein Status nicht. Ein Datum in der Zukunft ist keine Veraltung,
+    sondern eine **falsche Angabe** und wird schärfer gemeldet.
+    """
+    heute = date.today()
+    zu_alt, zukunft = [], []
+    for datei in sorted(DOCS.glob("*.md")):
+        stand = _stand(datei)
+        if stand is None:  # fehlt ganz — das meldet der Datums-Test
+            continue
+        tage = (heute - stand).days
+        if tage < 0:
+            zukunft.append(f"{datei.name} ({stand}, {abs(tage)} Tage in der Zukunft)")
+            continue
+        grenze = FRIST_TAGE.get(datei.name, VORGABE_TAGE)
+        if tage > grenze:
+            zu_alt.append(f"{datei.name}: {tage} Tage (Frist {grenze})")
+    assert zukunft == [], ("Stand-Datum in der Zukunft — Datum korrigieren: " + " | ".join(zukunft))
+    assert zu_alt == [], (
+        "seit der Frist nicht überprüft — Stand prüfen und Kopfzeile aktualisieren: "
+        + " | ".join(zu_alt))
+
+
+def test_agents_md_verweist_auf_einstieg_und_pruefung():
+    """Regel 6: `AGENTS.md` ist ein Wegweiser — er zeigt auf den Doku-Einstieg **und** den Prüfbefehl.
+
+    Ein Wegweiser ohne Ziel ist keiner. Geprüft wird ein echter Markdown-Verweis, kein Code-Zitat:
+    nur ein Verweis ist anklickbar und bleibt beim Verschieben sichtbar.
+    """
+    text = (WURZEL / "AGENTS.md").read_text(encoding="utf-8")
+    ziele = [z.rstrip("/") for z in re.findall(r"\]\(([^)#\s]+)\)", text)]
+    fehlend = [p for p in AGENTS_PFLICHTZIELE if not any(z.endswith(p) for z in ziele)]
+    assert fehlend == [], (
+        "AGENTS.md verweist nicht auf: " + ", ".join(fehlend)
+        + " (als Markdown-Verweis `[Text](Ziel)`)")
+
+
+def test_agents_md_bleibt_kurz():
+    """Regel 6: Wird `AGENTS.md` zum Handbuch, ist das ein Zeichen für fehlende Zielorte.
+
+    Der Inhalt gehört dann in die Fachdatei — hier bleibt der Wegweiser.
+    """
+    text = (WURZEL / "AGENTS.md").read_text(encoding="utf-8")
+    zeilen = len([z for z in text.splitlines() if z.strip()])
+    assert zeilen <= AGENTS_MAX_ZEILEN, (
+        f"AGENTS.md hat {zeilen} gefüllte Zeilen (Grenze {AGENTS_MAX_ZEILEN}) — "
+        "Inhalt in die zuständige Fachdatei verschieben und hier nur verweisen")
 
 
 def test_keine_entwuerfe_im_aktiven_ordner():
