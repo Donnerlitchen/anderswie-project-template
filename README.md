@@ -35,6 +35,7 @@ Möchtest du einen anderen Interpreter prüfen, setze `PY` von außen.
 | `CHANGELOG.md` | Änderungsverlauf (Keep a Changelog) |
 | `docs/` | Index, Source of Truth, Policies, Status, Backlog, Versionierung, Gates, Releases, Governance |
 | `scripts/gates.sh` | **Ein** Befehl für alle Prüfungen |
+| `scripts/check_repo_security.py` | Geheimnis-Prüfung über Arbeitsstand **und** Historie — nennt nie Werte |
 | `scripts/muellabfuhr.py` | Meldet Aufräum-Kandidaten — löscht nichts |
 | `tests/test_dokumentenordnung.py` | Erzwingt die Ordnung in `docs/` (Datum, Verantwortliche Person, Fristen, Index, Verweise, Wegweiser) |
 

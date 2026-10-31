@@ -5,6 +5,14 @@ Versionierung: SemVer. Jede veröffentlichte Version hat einen eigenen datierten
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-10-31
+
+### Hinzugefügt
+- **`scripts/check_repo_security.py`** aus dem Projekt übernommen und verallgemeinert: meldet Pfad und **Art** eines Fundes, niemals den Wert; `--history --ref main` prüft die Historie. Damit läuft in `gates.sh` **kein Schritt mehr übersprungen**.
+
+### Geändert
+- Die bild- und rohspezifische Rechteprüfung des Herkunftsskripts ist entfernt: sie ist eine Projekt-Politik, kein Teil des Standards.
+
 ## [1.1.0] - 2026-10-31
 
 ### Hinzugefügt

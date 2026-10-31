@@ -1,6 +1,6 @@
 # Der anderswie-Projektstandard
 
-**Vorlagen-Version:** 1.1.0 · **Stand:** 2026-10-31 · **Verantwortlich:** Ramona
+**Vorlagen-Version:** 1.2.0 · **Stand:** 2026-10-31 · **Verantwortlich:** Ramona
 
 ## Übernommene Konventionen (Fassung mitliefern!)
 
@@ -74,7 +74,7 @@ aktualisiert. Fristen: Vorgabe 365 Tage, `STATUS.md` und `BACKLOG.md` 90 — mas
 |---|---|---|
 | `gates.sh` | **Ein** Befehl für alle Prüfungen | Tests, Kompilierung, Whitespace/Diff, Secret-Prüfung, Verhaltenstests der Oberfläche; klares Gesamtergebnis; ändert nichts am Projekt; sagt **vorab**, wenn `pytest` fehlt, statt mit einem Importfehler abzubrechen |
 | `projektumgebung.py` | Welches Python gilt | Eine Regel an **einer** Stelle; Skripte starten sich bei falscher Umgebung selbst neu; verglichen wird `sys.prefix`, **nicht** die Datei |
-| `check_repo_security.py` | Keine Geheimnisse | Prüft **alle** Refs, nicht nur den lokalen Branch |
+| `check_repo_security.py` | Keine Geheimnisse | Meldet **Pfad und Art** eines Fundes, niemals den Wert; vergleicht zusätzlich mit den Werten einer lokalen `.env`, ohne sie zu drucken; `--history --ref main` prüft die Historie — vor jedem Push Pflicht |
 | Dokumentenordnungs-Test (`tests/test_dokumentenordnung.py`) | Die Ordnung erzwingen | Aktive Dokumente datiert **und mit verantwortlicher Person**, Stand innerhalb der Frist, keine Entwürfe im aktiven Ordner, jede aktive Datei im Index, keine toten Links, `AGENTS.md` als kurzer Wegweiser; dazu Namensordnung und Modulkarte |
 | `muellabfuhr.py` | Aufräum-Kandidaten **melden** | Überlange Dateien, verdächtige Namen, Arbeitsmarken-Häufungen, Doku ohne Index-Eintrag, Alter der Dokumente; löscht **nie** etwas — Rückgabewert immer 0 |
 
