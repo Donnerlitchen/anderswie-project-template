@@ -5,6 +5,10 @@ Versionierung: SemVer. Jede veröffentlichte Version hat einen eigenen datierten
 
 ## [Unreleased]
 
+### Geändert
+- `README.md`: Abschnitt **„Wofür das gut ist"** ergänzt — das Warum in Alltagssprache, mit der Gegenüberstellung Chat ↔ Projekt. Klon-Befehl zeigt jetzt die GitHub-Adresse.
+- `README.md` nannte noch **Fassung 1.1.0**, während `STANDARD.md` bereits auf 1.2.0 stand — die Versionsangabe zieht jetzt mit.
+
 ## [1.2.0] - 2026-10-31
 
 ### Hinzugefügt
