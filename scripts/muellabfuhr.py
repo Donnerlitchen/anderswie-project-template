@@ -29,6 +29,11 @@ GROSSE_DATEI_BYTES = 100_000
 TODO_SCHWELLE = 3
 ANZEIGE = 8
 
+# Bilder, Video und Ton sind absichtlich groß — sie als „zu groß“ zu melden, wäre Rauschen und
+# würde die echten Funde (Archive, Rohdaten, aufgeblähte Quelle) zudecken.
+MEDIEN_ENDUNGEN = {".jpg", ".jpeg", ".png", ".gif", ".webp", ".bmp", ".tif", ".tiff", ".heic",
+                   ".mp4", ".mov", ".avi", ".mkv", ".webm", ".mp3", ".wav", ".ogg", ".flac"}
+
 # Ordner, die nie gemeint sind: fremde oder erzeugte Inhalte.
 UEBERSPRINGEN = {".git", ".venv", "venv", "node_modules", "__pycache__", ".pytest_cache",
                  "dist", "build", ".mypy_cache", ".ruff_cache"}
@@ -58,7 +63,8 @@ def alle_dateien(wurzel: Path):
 
 
 def grosse_dateien(wurzel: Path):
-    funde = [(p.stat().st_size, p) for p in alle_dateien(wurzel) if p.stat().st_size >= GROSSE_DATEI_BYTES]
+    funde = [(p.stat().st_size, p) for p in alle_dateien(wurzel)
+             if p.stat().st_size >= GROSSE_DATEI_BYTES and p.suffix.lower() not in MEDIEN_ENDUNGEN]
     return sorted(funde, reverse=True)
 
 
