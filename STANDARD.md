@@ -1,6 +1,6 @@
 # Der anderswie-Projektstandard
 
-**Vorlagen-Version:** 1.2.0 · **Stand:** 2026-10-31 · **Verantwortlich:** Ramona
+**Vorlagen-Version:** 1.3.0 · **Stand:** 2026-10-31 · **Verantwortlich:** Ramona
 
 ## Übernommene Konventionen (Fassung mitliefern!)
 
@@ -65,8 +65,15 @@ aktualisiert. Fristen: Vorgabe 365 Tage, `STATUS.md` und `BACKLOG.md` 90 — mas
 | `RELEASES.md` | Bauen, Rollback, Betrieb | Der ausführbare Ablauf; Voraussetzungen; Betriebsfallen; **zwei Versionen** im Kopf (Quellversion **und** laufendes Artefakt) | Ein Kopf, der „läuft" sagt, während das Artefakt mehrere Versionen hinterherhinkt, altert unbemerkt |
 | `Spezifikation-<Modul>.md` | Anforderungen je Modul | Eigene ID-Reihe (`VIS`/`KAT`/`SUZ`/`LAB`), ein Punkt je Anforderung | Eine **zitierte** ID, die nirgends definiert ist, sieht wie eine Quelle aus und ist keine |
 | `RULE-MODULE-MAP.md` | Regel → Modul → Umsetzung | Je Modul: Spanne, Code, Umsetzungsstand | Kommt eine ID hinzu, ziehen **Spanne und Fließtext** mit |
+| `ACTIVE-MODULES.md` | Die **laufenden** Code-Module | Modul → Zweck → Datei | Gilt, **sobald es Quellcode gibt**; fehlt die Karte, obwohl `src/` existiert, meldet das Prüfskript es (ohne Karte prüft nichts) |
 | `PLAN-<Thema>.md` | Größere Vorhaben | Ziel, Schritte, **was bewusst nicht** getan wird | Ein Plan gehört ins Projekt, **nie** in einen versteckten Agenten-Ordner außerhalb der Versionskontrolle |
 | `archive/<thema>/` | Ersetztes und Entwürfe | Banner oben mit Datum und gültigem Nachfolger | Ein Banner, das fehlt, lässt einen Entwurf wie gültig aussehen |
+
+**Zwei Dokumente gehören der Vorlage, nicht dem Projekt:** `docs/GOVERNANCE.md` (aufräumen, ordnen,
+ein Regelwerk prüfen) und `docs/REGELWERK-UMBAU.md` (einmaliger Umbau der Regel-Nummern). Beide
+beschreiben **generische Verfahren**, die für jedes Projekt gleich sind — sie liegen deshalb nur
+hier. Ein Projekt muss sie **nicht** mitführen; führt es sie ein, gehören sie in seinen `INDEX.md`.
+Eine Regel hat genau einen Ort: wer diese Texte in ein Projekt kopiert, hat sie danach zweimal.
 
 ## 3. `scripts/` — die durchsetzbaren Prüfungen
 
@@ -75,7 +82,8 @@ aktualisiert. Fristen: Vorgabe 365 Tage, `STATUS.md` und `BACKLOG.md` 90 — mas
 | `gates.sh` | **Ein** Befehl für alle Prüfungen | Tests, Kompilierung, Whitespace/Diff, Secret-Prüfung, Verhaltenstests der Oberfläche; klares Gesamtergebnis; ändert nichts am Projekt; sagt **vorab**, wenn `pytest` fehlt, statt mit einem Importfehler abzubrechen |
 | `projektumgebung.py` | Welches Python gilt | Eine Regel an **einer** Stelle; Skripte starten sich bei falscher Umgebung selbst neu; verglichen wird `sys.prefix`, **nicht** die Datei |
 | `check_repo_security.py` | Keine Geheimnisse | Meldet **Pfad und Art** eines Fundes, niemals den Wert; vergleicht zusätzlich mit den Werten einer lokalen `.env`, ohne sie zu drucken; `--history --ref main` prüft die Historie — vor jedem Push Pflicht |
-| Dokumentenordnungs-Test (`tests/test_dokumentenordnung.py`) | Die Ordnung erzwingen | Aktive Dokumente datiert **und mit verantwortlicher Person**, Stand innerhalb der Frist, keine Entwürfe im aktiven Ordner, jede aktive Datei im Index, keine toten Links, `AGENTS.md` als kurzer Wegweiser; dazu Namensordnung und Modulkarte |
+| Dokumentenordnungs-Test (`tests/test_dokumentenordnung.py`) | Die Ordnung erzwingen | Aktive Dokumente datiert **und mit verantwortlicher Person**, Stand innerhalb der Frist, keine Entwürfe im aktiven Ordner, jede aktive Datei im Index, keine toten Links, `AGENTS.md` als kurzer Wegweiser; dazu Namensordnung, Modulkarte und Archiv-Kennzeichnung |
+| Dokumentationspflicht-Test (`tests/test_dokumentationspflicht.py`) | Code ohne Changelog verhindern | Wer `src/**.py` ändert, muss `CHANGELOG.md` im selben Zug mitziehen; ohne Quellordner meldet der Test nichts |
 | `muellabfuhr.py` | Aufräum-Kandidaten **melden** | Überlange Dateien, verdächtige Namen, Arbeitsmarken-Häufungen, Doku ohne Index-Eintrag, Alter der Dokumente; löscht **nie** etwas — Rückgabewert immer 0 |
 
 ## 4. Was verdrahtet sein muss, bevor es zählt

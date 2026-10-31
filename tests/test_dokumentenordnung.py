@@ -188,12 +188,16 @@ def test_keine_toten_verweise():
 def test_alle_module_stehen_in_der_modulkarte():
     """Die Modulkarte beschreibt den **aktuellen Code** — jedes Modul muss dort stehen.
 
-    Ein frisches Projekt hat noch keinen Quellordner; dann gibt es nichts zu prüfen.
+    Ein frisches Projekt hat noch keinen Quellordner; dann gibt es nichts zu prüfen. Gibt es aber
+    Quellcode, **muss** die Karte da sein: eine still übersprungene Prüfung meldet nie einen Fund.
     """
     quellen = WURZEL / "src"
-    karte_datei = DOCS / "ACTIVE-MODULES.md"
-    if not quellen.is_dir() or not karte_datei.is_file():
+    if not quellen.is_dir():
         return
+    karte_datei = DOCS / "ACTIVE-MODULES.md"
+    assert karte_datei.is_file(), (
+        "es gibt `src/`, aber `docs/ACTIVE-MODULES.md` fehlt — die Modulkarte gehört dazu "
+        "(siehe STANDARD.md §2)")
     karte = karte_datei.read_text(encoding="utf-8")
     module = sorted(p.name for p in quellen.rglob("*.py") if p.name != "__init__.py")
     fehlend = [m for m in module if m not in karte]
