@@ -5,6 +5,15 @@ Versionierung: SemVer. Jede veröffentlichte Version hat einen eigenen datierten
 
 ## [Unreleased]
 
+### Entschieden (2026-10-31): Die englischen Fachabschnitte bleiben englisch
+
+- `docs/GOVERNANCE.md` und `docs/REGELWERK-UMBAU.md` bleiben zweisprachig (Ramona-Entscheidung,
+  2026-10-31). Damit ist der Hinweis im Block 1.3.0 („entschieden wird das gesondert") beantwortet:
+  **keine Übersetzung.** Die Texte sind gewachsen und praxiserprobt; eine Übertragung würde sie
+  verwässern, und kein Prüfskript würde das bemerken.
+- **Für Projekte gilt die Sprachregel unverändert:** ihre **eigenen** Texte sind Deutsch ohne
+  Jargon. Die Ausnahme betrifft nur diese zwei Vorlagen-Dokumente, die kein Projekt mitführen muss.
+
 ## [1.3.0] - 2026-10-31
 
 ### Hinzugefügt
