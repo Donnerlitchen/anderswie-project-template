@@ -1,0 +1,14 @@
+# Zugangsdaten und Laufzeitdaten — nie versionieren
+.env
+data/
+dist/
+scratch/
+
+# Agenten-Ordner: nicht ignoriert macht er den Arbeitsbaum schmutzig
+# und sperrt jeden commitgebundenen Build.
+.hermes/
+
+# Werkzeuge
+__pycache__/
+*.pyc
+.pytest_cache/
